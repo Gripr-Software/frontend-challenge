@@ -1,28 +1,64 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <AppLoginDialog
+      v-model="loginDialog"
+      @submit:form="onLogin"
+    ></AppLoginDialog>
+    <v-app-bar app>
+      <template v-if="isLoggedIn">
+        <v-avatar color="primary">
+          <span class="white--text">{{ user.initials }}</span>
+        </v-avatar>
+      </template>
+
+      <v-spacer></v-spacer>
+      <v-btn
+        color="primary"
+        @click="loginDialog = true"
+        v-if="!isLoggedIn"
+        :loading="isLoggingIn"
+      >
+        Login
+      </v-btn>
+      <v-btn color="error" v-else @click="onLogout">
+        Logout
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { mapGetters, mapState } from "vuex";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  data() {
+    return {
+      loginDialog: false,
+    };
+  },
+  computed: {
+    ...mapGetters("auth", {
+      isLoggedIn: "isLoggedIn",
+    }),
+    ...mapState("auth", {
+      isLoggingIn: (state) => state.isLoggingIn,
+      user: (state) => state.user,
+    }),
+  },
+  methods: {
+    onLogin(args) {
+      this.$store.dispatch("auth/login", args);
+    },
+    onLogout() {
+      this.$store.dispatch("auth/logout");
+    },
+  },
+  mounted() {
+    this.$store.dispatch("auth/getUser");
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
