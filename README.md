@@ -1,24 +1,21 @@
 # frontend-challenge
 
 ## Project setup
+
+[nodejs](https://nodejs.org/en/) is required
+
+### Install node modules
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Backend swagger documentation
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[swagger](https://devgov3.azurewebsites.net/docs/)
