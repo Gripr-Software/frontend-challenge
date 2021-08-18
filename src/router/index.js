@@ -1,14 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../pages/HomePage";
+import HomePage from "../pages/HomePage";
+import TaskPage from "../pages/TaskPage";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "home",
+    component: HomePage,
+  },
+  {
+    path: "/tasks",
+    name: "tasks",
+    component: TaskPage,
   },
 ];
 
