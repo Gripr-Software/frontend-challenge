@@ -4,10 +4,16 @@
       v-model="loginDialog"
       @submit:form="onLogin"
     ></AppLoginDialog>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app>
+      <template v-if="isLoggedIn">
+        <v-avatar color="primary">
+          <span class="white--text">{{ user.initials }}</span>
+        </v-avatar>
+      </template>
+
       <v-spacer></v-spacer>
       <v-btn
-        color="success"
+        color="primary"
         @click="loginDialog = true"
         v-if="!isLoggedIn"
         :loading="isLoggingIn"
@@ -19,7 +25,9 @@
       </v-btn>
     </v-app-bar>
 
-    <v-main> </v-main>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
   </v-app>
 </template>
 
@@ -38,6 +46,7 @@ export default {
     }),
     ...mapState("auth", {
       isLoggingIn: (state) => state.isLoggingIn,
+      user: (state) => state.user,
     }),
   },
   methods: {
