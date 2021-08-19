@@ -21,15 +21,23 @@ const actions = {
         const jwt = data.access_token;
         localStorage.setItem("jwt", jwt);
         dispatch("getUser");
+      })
+      .catch((err) => {
+        commit("loggingIn", false);
       });
   },
   getUser({ commit }) {
     commit("loggingIn", true);
-    axios.get(`${apiUrl}auth/me`).then(({ data }) => {
-      commit("setUser", data);
-      commit("loggingIn", false);
-      localStorage.setItem("domain", data.activeDomain);
-    });
+    axios
+      .get(`${apiUrl}auth/me`)
+      .then(({ data }) => {
+        commit("setUser", data);
+        commit("loggingIn", false);
+        localStorage.setItem("domain", data.activeDomain);
+      })
+      .catch((err) => {
+        commit("loggingIn", false);
+      });
   },
   logout({ commit }) {
     localStorage.removeItem("jwt");
